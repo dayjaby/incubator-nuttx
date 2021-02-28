@@ -25,4 +25,18 @@ config LITEX_UART0
 	select ARCH_HAVE_SERIAL_TERMIOS
 	select LITEX_UART
 
+config LITEX_SDMMC
+	bool
+	default n
+
+config LITEX_SDMMC1
+	bool "SDMMC1"
+	default n
+	select LITEX_SDMMC
+	select ARCH_HAVE_SDIO
+	select ARCH_HAVE_SDIOWAIT_WRCOMPLETE
+	select ARCH_HAVE_SDIO_PREFLIGHT
+	select SDIO_BLOCKSETUP
+
 endmenu
+
