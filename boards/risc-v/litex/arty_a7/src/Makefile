@@ -22,6 +22,10 @@ include $(TOPDIR)/Make.defs
 
 CSRCS  = litex_bringup.c litex_boot.c
 
+ifeq ($(CONFIG_LITEX_SDIO),y)
+CSRCS += litex_sdio.c
+endif
+
 ifeq ($(CONFIG_LIB_BOARDCTL),y)
 CSRCS += litex_appinit.c
 endif

@@ -27,6 +27,70 @@
 
 #include <nuttx/config.h>
 
+/* Assume that we have everything */
+
+#define HAVE_SDIO       1
+
+/* Can't support MMC/SD features if mountpoints are disabled or if SDIO
+ * support is not enabled.
+ */
+
+#if defined(CONFIG_DISABLE_MOUNTPOINT) || !defined(CONFIG_LITEX_SDIO)
+#  undef HAVE_SDIO
+#endif
+
+#undef  SDIO_MINOR     /* Any minor number, default 0 */
+#define SDIO_SLOTNO 0  /* Only one slot */
+
+#ifdef HAVE_SDIO
+#  if !defined(CONFIG_NSH_MMCSDSLOTNO)
+#    define CONFIG_NSH_MMCSDSLOTNO SDIO_SLOTNO
+#  elif CONFIG_NSH_MMCSDSLOTNO != 0
+#    warning "Only one MMC/SD slot, slot 0"
+#    undef CONFIG_NSH_MMCSDSLOTNO
+#    define CONFIG_NSH_MMCSDSLOTNO SDIO_SLOTNO
+#  endif
+
+#  if defined(CONFIG_NSH_MMCSDMINOR)
+#    define SDIO_MINOR CONFIG_NSH_MMCSDMINOR
+#  else
+#    define SDIO_MINOR 0
+#  endif
+#endif
+
+#ifndef __ASSEMBLY__
+
+/****************************************************************************
+ * Public Function Prototypes
+ ****************************************************************************/
+
+/****************************************************************************
+ * Name: litex_bringup
+ *
+ * Description:
+ *   Perform architecture-specific initialization
+ *
+ *   CONFIG_BOARD_LATE_INITIALIZE=y :
+ *     Called from board_late_initialize().
+ *
+ *   CONFIG_BOARD_LATE_INITIALIZE=y && CONFIG_LIB_BOARDCTL=y :
+ *     Called from the NSH library
+ *
+ ****************************************************************************/
+
 int litex_bringup(void);
 
+/****************************************************************************
+ * Name: litex_sdio_initialize
+ *
+ * Description:
+ *   Initialize SDIO-based MMC/SD card support
+ *
+ ****************************************************************************/
+
+#if !defined(CONFIG_DISABLE_MOUNTPOINT) && defined(CONFIG_LITEX_SDIO)
+int litex_sdio_initialize(void);
+#endif
+
+#endif /* __ASSEMBLY__ */
 #endif /* __BOARDS_RISCV_LITEX_ARTY_A7_SRC_ARTY_A7_H */

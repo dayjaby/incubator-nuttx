@@ -21,6 +21,12 @@
 #ifndef ARCH_RISCV_SRC_LITEX_CHIP_LITEX_UART_H
 #define ARCH_RISCV_SRC_LITEX_CHIP_LITEX_UART_H
 
+/************************************************************************************
+ * Included Files
+ ************************************************************************************/
+
+#include "csr_defines.h"
+
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
@@ -33,12 +39,12 @@
 #define UART_EV_ENABLE_OFFSET   0x14
 
 #ifdef CONFIG_LITEX_UART0
-#  define LITEX_UART0_RXTX          (LITEX_UART0_BASE + UART_RXTX_OFFSET)
-#  define LITEX_UART0_TXFULL        (LITEX_UART0_BASE + UART_TXFULL_OFFSET)
-#  define LITEX_UART0_RXEMPTY       (LITEX_UART0_BASE + UART_RXEMPTY_OFFSET)
-#  define LITEX_UART0_EV_STATUS     (LITEX_UART0_BASE + UART_EV_STATUS_OFFSET)
-#  define LITEX_UART0_EV_PENDING    (LITEX_UART0_BASE + UART_EV_PENDING_OFFSET)
-#  define LITEX_UART0_EV_ENABLE     (LITEX_UART0_BASE + UART_EV_ENABLE_OFFSET)
+#  define LITEX_UART0_RXTX          CSR_UART_RXTX_ADDR
+#  define LITEX_UART0_TXFULL        CSR_UART_TXFULL_ADDR
+#  define LITEX_UART0_RXEMPTY       CSR_UART_RXEMPTY_ADDR
+#  define LITEX_UART0_EV_STATUS     CSR_UART_EV_STATUS_ADDR
+#  define LITEX_UART0_EV_PENDING    CSR_UART_EV_PENDING_ADDR
+#  define LITEX_UART0_EV_ENABLE     CSR_UART_EV_ENABLE_ADDR
 #  define LITEX_UART0_PHY_TUNING_WORD   0xf0002000L
 #endif
 

@@ -47,6 +47,29 @@ int litex_bringup(void)
 {
   int ret = OK;
 
+#ifdef HAVE_SDIO
+  /* Initialize the SDIO block driver */
+
+  ret = litex_sdio_initialize();
+  if (ret != OK)
+    {
+      ferr("ERROR: Failed to initialize MMC/SD driver: %d\n", ret);
+      return ret;
+    }
+#endif
+
+  // TODO: is this necessary?
+#ifdef CONFIG_MMCSD_SPI
+  /* Initialize the MMC/SD SPI driver (SPI2 is used) */
+
+  ret = litex_mmcsd_initialize(2, CONFIG_NSH_MMCSDMINOR);
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "Failed to initialize SD slot %d: %d\n",
+             CONFIG_NSH_MMCSDMINOR, ret);
+    }
+#endif
+
 #ifdef CONFIG_FS_PROCFS
   /* Mount the procfs file system */
 
